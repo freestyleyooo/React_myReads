@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Book from './Book'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
@@ -16,14 +17,21 @@ class BookSearch extends React.Component {
     }
 
     updateQuery = (event) => {
+        let query = event.target.value
         this.setState({
-            query : event.target.value.trim(),
+            query
         })
-        BooksAPI.search(this.state.query,10).then((books) => {
-            this.setState({
-                booksList : books
+
+        query = query.trim()
+        if (query) {
+            BooksAPI.search(query, 10).then((books) => {
+                this.setState({
+                    booksList: books
                 })
+                console.log(books)
             })
+        }
+
     }
 
     getBook = (book, shelf) => {
@@ -36,11 +44,11 @@ class BookSearch extends React.Component {
         const { query, booksList } = this.state
 
         let showingBooks = []
-        if (booksList.length>0) {
+        if (booksList && booksList.length > 0) {
             showingBooks = booksList
-        } 
+        }
 
-        
+
 
         return (
             <div className="search-books">
@@ -54,27 +62,9 @@ class BookSearch extends React.Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid">
-                        {showingBooks[0] && showingBooks.map((book, index) => (
-                            <li key={book.id}>
-                                <div className="book">
-                                    <div className="book-top">
-                                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                                        <div className="book-shelf-changer">
-                                            <select defaultValue="none" onChange={(event) => this.getBook(book, event.target.value)}>
-                                                <option value="none" disabled>Move to...</option>
-                                                <option value="currentlyReading">Currently Reading</option>
-                                                <option value="wantToRead" >Want to Read</option>
-                                                <option value="read">Read</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.authors[0]}</div>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                    <Book
+                        books={showingBooks}
+                    />
                 </div>
             </div>
         )
