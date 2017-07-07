@@ -2,34 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BookShelf extends React.Component {
-    // static PropTypes = {
-    //     books: PropTypes.array.isRequired,
-    //     onMoveBook: PropTypes.func.isRequired
-    // }
-
-    state = {
-        books: []
+    static PropTypes = {
+        books: PropTypes.array.isRequired,
+        shelfName: PropTypes.string.isRequired,
+        bookShelf: PropTypes.string.isRequired
     }
 
-    getAllBook = function () {
-        BooksAPI.getAll().then((books) => {
-            this.setState({
-                books: books.filter((book) => book.shelf === this.props.bookShelf)
-            })
-        })
-    }
 
-    componentDidMount() {
-        this.getAllBook()
-    }
-
-    componentDidUpdate() {
-        this.getAllBook()
-    }
+    
 
 
     render() {
@@ -39,7 +22,7 @@ class BookShelf extends React.Component {
                 <h2 className="bookshelf-title">{this.props.shelfName}</h2>
                 <div className="bookshelf-books">
                     <Book
-                        books={this.state.books}
+                        books={this.props.books.filter((book) => book.shelf === this.props.bookShelf)}
                         
                     />
                 </div>

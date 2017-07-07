@@ -4,28 +4,25 @@ import BookShelf from './BookShelf'
 import PropTypes from 'prop-types'
 import './App.css'
 
+const shelfName = {
+    currentlyReading: {
+        bookShelf: 'currentlyReading',
+        shelfName: 'Currently Reading'
+    },
+    wantToRead: {
+        bookShelf: 'wantToRead',
+        shelfName: 'Want to Read'
+    },
+    read: {
+        bookShelf: 'read',
+        shelfName: 'Read'
+    }
+}
+
 class BookFrame extends React.Component {
 
     static PropTypes = {
         books: PropTypes.array.isRequired,
-        onMoveBook: PropTypes.func.isRequired
-    }
-
-    state = {
-        shelfName: {
-            currentlyReading: {
-                bookShelf : 'currentlyReading',
-                shelfName : 'Currently Reading'
-            },
-            wantToRead: {
-                bookShelf : 'wantToRead',
-                shelfName : 'Want to Read'
-            },
-            read: {
-                bookShelf : 'read',
-                shelfName : 'Read'
-            }
-        }
     }
 
     render() {
@@ -38,18 +35,21 @@ class BookFrame extends React.Component {
                 <div className="list-books-content">
                     <div>
                         <BookShelf
-                            shelfName={this.state.shelfName.currentlyReading.shelfName}
-                            bookShelf={this.state.shelfName.currentlyReading.bookShelf}
+                            books={this.props.books}
+                            shelfName={shelfName.currentlyReading.shelfName}
+                            bookShelf={shelfName.currentlyReading.bookShelf}
                         />
 
                         <BookShelf
-                            shelfName={this.state.shelfName.wantToRead.shelfName}
-                            bookShelf={this.state.shelfName.wantToRead.bookShelf}
+                            books={this.props.books}
+                            shelfName={shelfName.wantToRead.shelfName}
+                            bookShelf={shelfName.wantToRead.bookShelf}
                         />
 
                         <BookShelf
-                            shelfName={this.state.shelfName.read.shelfName}
-                            bookShelf={this.state.shelfName.read.bookShelf}
+                            books={this.props.books}
+                            shelfName={shelfName.read.shelfName}
+                            bookShelf={shelfName.read.bookShelf}
                         />
                     </div>
                 </div>

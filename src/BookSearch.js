@@ -28,7 +28,6 @@ class BookSearch extends React.Component {
                 this.setState({
                     booksList: books
                 })
-                console.log(books)
             })
         }
 
@@ -42,10 +41,19 @@ class BookSearch extends React.Component {
     render() {
 
         const { query, booksList } = this.state
-
+        const { books } = this.props
         let showingBooks = []
         if (booksList && booksList.length > 0) {
-            showingBooks = booksList
+            showingBooks = booksList.map((book, index) => {
+                let trueBook = book
+                for (let b of books) {
+                    if (book.id === b.id) {
+                        trueBook = b
+                        break
+                    }
+                }
+                return trueBook
+            })
         }
 
 
